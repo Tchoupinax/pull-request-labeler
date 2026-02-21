@@ -16,7 +16,8 @@ export async function main(): Promise<void> {
   }
 
   const token = core.getInput("github-token", { required: true });
-  const configPath = core.getInput("config-path", { required: true });
+  const configPath = core.getInput("config-path");
+  const configRepoInput = core.getInput("config-repo").trim();
 
   const owner = context.repo.owner;
   const repo = context.repo.repo;
@@ -26,13 +27,32 @@ export async function main(): Promise<void> {
 
   const pr = await octokit.rest.pulls.get({ owner, repo, pull_number: issueNumber });
 
+  const configSource = await (async (): Promise<{ owner: string; repo: string; ref: string }> => {
+    if (configRepoInput === "") {
+      return { owner, repo, ref: pr.data.head.sha };
+    }
+    const parts = configRepoInput.split("/");
+    if (parts.length !== 2 || !parts[0] || !parts[1]) {
+      throw new Error(`config-repo must be "owner/repo", got: ${JSON.stringify(configRepoInput)}`);
+    }
+    const [configOwner, configRepo] = parts;
+    const { data } = await octokit.rest.repos.get({ owner: configOwner, repo: configRepo });
+    return { owner: configOwner, repo: configRepo, ref: data.default_branch };
+  })();
+
   const [labelerConfig, prContext] = await Promise.all([
-    loadConfig({ octokit, owner, repo, ref: pr.data.head.sha, configPath }),
+    loadConfig({
+      octokit,
+      owner: configSource.owner,
+      repo: configSource.repo,
+      ref: configSource.ref,
+      configPath: configPath || undefined,
+    }),
     getPRContext({ octokit, owner, repo, pullNumber: issueNumber }),
   ]);
 
   if (labelerConfig == null) {
-    const message = `Config file not found or invalid: ${configPath} (ref: ${pr.data.head.sha})`;
+    const message = `Config file not found or invalid: ${configPath || ".github/pull-request-labeler.yml"} in ${configSource.owner}/${configSource.repo} (ref: ${configSource.ref})`;
     throw new Error(message);
   }
 
