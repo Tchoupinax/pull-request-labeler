@@ -17,7 +17,7 @@ describe("integration: title matcher", () => {
   it("adds label when PR title matches pattern", async () => {
     setConfigLabelerAndPRContext(
       { labels: [{ label: "feat", matcher: { title: "^feat:" } }] },
-      { title: "feat: add login" },
+      { title: "feat: add option to get config from another repository" },
     );
     const { main } = await import("../index");
     await main();
