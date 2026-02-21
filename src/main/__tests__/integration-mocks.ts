@@ -4,6 +4,7 @@ export const mockAddLabels = vi.fn();
 export const mockRemoveLabel = vi.fn();
 export const mockGetContent = vi.fn();
 export const mockPullsGet = vi.fn();
+export const mockReposGet = vi.fn();
 export const mockPaginate = vi.fn();
 export const mockListLabelsOnIssue = vi.fn();
 
@@ -19,7 +20,7 @@ vi.mock("@actions/github", () => ({
   getOctokit: () => ({
     rest: {
       pulls: { get: mockPullsGet },
-      repos: { getContent: mockGetContent },
+      repos: { get: mockReposGet, getContent: mockGetContent },
       issues: {
         addLabels: mockAddLabels,
         removeLabel: mockRemoveLabel,
