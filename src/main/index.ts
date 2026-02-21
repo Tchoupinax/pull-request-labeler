@@ -64,7 +64,6 @@ export async function main(): Promise<void> {
   if (labelerConfig.labels) {
     for (const labelConfig of labelerConfig.labels) {
       const matches = evaluateLabel(prContext, labelConfig);
-      console.log(prContext, labelConfig);
       if (matches) {
         labelsToAdd.push(labelConfig.label);
       } else if (labelConfig.sync) {
