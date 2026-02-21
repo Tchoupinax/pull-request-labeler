@@ -16,14 +16,15 @@ export function evaluateLabel(
   labelConfig: LabelConfig,
 ): boolean {
   const { matcher } = labelConfig;
+
   return (
-    matchTitle(context, matcher) &&
-    matchBody(context, matcher) &&
-    matchComment(context, matcher) &&
-    matchBranch(context, matcher) &&
-    matchBaseBranch(context, matcher) &&
-    matchCommits(context, matcher) &&
     matchAuthor(context, matcher) &&
-    matchFiles(context, matcher.files)
+    matchBaseBranch(context, matcher) &&
+    matchBody(context, matcher) &&
+    matchBranch(context, matcher) &&
+    matchComment(context, matcher) &&
+    matchCommits(context, matcher) &&
+    matchFiles(context, matcher.files) &&
+    matchTitle(context, matcher)
   );
 }
