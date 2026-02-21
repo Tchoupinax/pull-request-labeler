@@ -1,0 +1,21 @@
+name: "Pull request labeler"
+description: "Multi labeler for title, body, comments, commit messages, branch, author or files with automated status checks."
+author: "Tchoupinax"
+branding:
+  icon: "box"
+  color: "orange"
+
+inputs:
+  github-token:
+    description: "GITHUB_TOKEN or a `repo` scoped Personal Access Token (PAT)"
+    required: false
+
+  config-path:
+    description: "The path for the label configurations"
+    default: ".github/pull-request-labeler.yml"
+    required: false
+
+runs:
+  using: "node24"
+  main: "dist/main/index.js"
+  post: "dist/post/index.js"

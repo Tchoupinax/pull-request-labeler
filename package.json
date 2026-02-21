@@ -1,0 +1,51 @@
+{
+  "name": "pull-request-labeler",
+  "version": "0.1.0",
+  "description": "A GitHub Action to automatically your pull request and prepare to release",
+  "author": "Tchoupinax <corentinfiloche@hotmail.fr>",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "github-actions",
+    "labels",
+    "release"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint --fix .",
+    "lint:inspect": "npx @eslint/config-inspector@latest",
+    "docs": "action-docs --update-readme",
+    "================================================": "=",
+    "build": "pnpm build:typescript && pnpm build:main && pnpm build:post",
+    "build:typescript": "tsc --noEmit",
+    "build:main": "ncc build --no-cache --no-source-map-register src/main/index.ts --out dist/main --minify",
+    "build:post": "ncc build --no-cache --no-source-map-register src/post/index.ts --out dist/post --minify",
+    "build:dev": "chokidar \"src/**/*.ts\" -c \"pnpm run build:main\"",
+    "=================================================": "=",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "==================================================": "=",
+    "local:ci": "act pull_request -P ubuntu-latest=node:24-bookworm-slim --container-architecture linux/amd64"
+  },
+  "dependencies": {
+    "@actions/artifact": "6.1.0",
+    "@actions/core": "2.0.3",
+    "@actions/github": "8",
+    "@actions/tool-cache": "3",
+    "js-yaml": "4.1.1",
+    "minimatch": "10.2.2",
+    "ts-pattern": "^5.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.3.0",
+    "@vercel/ncc": "0.38.4",
+    "action-docs": "2.5.1",
+    "chokidar-cli": "3.0.0",
+    "eslint": "10.0.1",
+    "eslint-config-tchoupinax": "2.0.0-rc14",
+    "typescript": "5.9",
+    "typescript-eslint": "8.56.0",
+    "vite-node": "5.3.0",
+    "vitest": "4.0.18"
+  }
+}
