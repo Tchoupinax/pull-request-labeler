@@ -16,6 +16,7 @@ import {
   mockPaginate,
   mockPullsGet,
 } from "../__tests__/integration-mocks";
+import { LabelerConfig } from "./types";
 
 const configWithMajorFeature = {
   labels: [],
@@ -181,7 +182,7 @@ const configWithPatchFeature = {
 };
 
 function mockGetContentForUpgradeTests(
-  labelerConfig: object,
+  labelerConfig: LabelerConfig,
   headPkg: object,
 ): void {
   mockGetContent.mockImplementation(

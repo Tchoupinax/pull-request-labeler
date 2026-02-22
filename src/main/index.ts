@@ -125,7 +125,7 @@ export async function main(): Promise<void> {
 }
 
 if (process.env.VITEST !== "true") {
-  main().catch((err) => {
+  main().catch(err => {
     core.setFailed(err instanceof Error ? err.message : String(err));
   });
 }
