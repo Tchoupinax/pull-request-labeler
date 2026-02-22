@@ -41,13 +41,14 @@ export async function loadConfig(port: Port): Promise<LabelerConfig | null> {
     }
     const yamlStr = Buffer.from(content, "base64").toString("utf-8");
     const parsed = yaml.load(yamlStr);
-    if (
-      !parsed ||
-      typeof parsed !== "object" ||
-      !Array.isArray((parsed as LabelerConfig).labels)
-    ) {
+    if (!parsed || typeof parsed !== "object") {
       return null;
     }
+
+    if (!Array.isArray((parsed as LabelerConfig).labels)) {
+      return null;
+    }
+
     return parsed as LabelerConfig;
   } catch {
     return null;

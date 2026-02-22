@@ -31,10 +31,10 @@
     "@actions/artifact": "6.1.0",
     "@actions/core": "2.0.3",
     "@actions/github": "8",
-    "@actions/tool-cache": "3",
+    "@actions/tool-cache": "4",
     "js-yaml": "4.1.1",
     "minimatch": "10.2.2",
-    "ts-pattern": "^5.9.0"
+    "ts-pattern": "5.9.0"
   },
   "devDependencies": {
     "@types/node": "25.3.0",
@@ -42,7 +42,7 @@
     "action-docs": "2.5.1",
     "chokidar-cli": "3.0.0",
     "eslint": "10.0.1",
-    "eslint-config-tchoupinax": "2.0.0-rc14",
+    "eslint-config-tchoupinax": "2.4.0",
     "typescript": "5.9",
     "typescript-eslint": "8.56.0",
     "vite-node": "5.3.0",

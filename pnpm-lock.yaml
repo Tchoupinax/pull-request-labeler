@@ -18,8 +18,8 @@ importers:
         specifier: '8'
         version: 8.0.1
       '@actions/tool-cache':
-        specifier: '3'
-        version: 3.0.1
+        specifier: '4'
+        version: 4.0.0
       js-yaml:
         specifier: 4.1.1
         version: 4.1.1
@@ -27,7 +27,7 @@ importers:
         specifier: 10.2.2
         version: 10.2.2
       ts-pattern:
-        specifier: ^5.9.0
+        specifier: 5.9.0
         version: 5.9.0
     devDependencies:
       '@types/node':
@@ -46,8 +46,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1
       eslint-config-tchoupinax:
-        specifier: 2.0.0-rc14
-        version: 2.0.0-rc14(@eslint/markdown@7.5.1)(@typescript-eslint/utils@8.56.0(eslint@10.0.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(typescript@5.9.3)
+        specifier: 2.4.0
+        version: 2.4.0(@eslint/markdown@7.5.1)(@typescript-eslint/utils@8.56.0(eslint@10.0.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(typescript@5.9.3)
       typescript:
         specifier: '5.9'
         version: 5.9.3
@@ -96,8 +96,8 @@ packages:
   '@actions/io@3.0.2':
     resolution: {integrity: sha512-nRBchcMM+QK1pdjO7/idu86rbJI5YHUKCvKs0KxnSYbVe3F51UfGxuZX4Qy/fWlp6l7gWFwIkrOzN+oUK03kfw==}
 
-  '@actions/tool-cache@3.0.1':
-    resolution: {integrity: sha512-euK7sID37jMg1yWGkdXkLPI5Te7x/+2QMUPeHXogcpzUZ81mqlDZ+CgYhQo3LtB8LpVnnQyjs+hTTU0Ir4Y0RQ==}
+  '@actions/tool-cache@4.0.0':
+    resolution: {integrity: sha512-L8P9HbXvpvqjZDveb/fdsa55IVC0trfPgQ4ZwGo6r5af6YDVdM9vMGPZ7rgY2fAT9gGj4PSYd6bYlg3p3jD78A==}
 
   '@azure/abort-controller@2.1.2':
     resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
@@ -1273,8 +1273,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-config-tchoupinax@2.0.0-rc14:
-    resolution: {integrity: sha512-m8OAEBH8WuYopB2OWSn1fKiTb/O8C612GKKE46Nqm8pj7O6b19Srzagg+oCB2ki4YPbXmq8RmwzYe6lHvbA0JQ==}
+  eslint-config-tchoupinax@2.4.0:
+    resolution: {integrity: sha512-DPFRuZR/C85QSMUocjPXUfh3wRbrj9Iy7vZluNAVmJzS9RwnyuYd3cDSkW2cSmR1bWbtFKqvi+JhJ4PeBvBrsA==}
 
   eslint-import-context@0.1.9:
     resolution: {integrity: sha512-K9Hb+yRaGAGUbwjhFNHvSmmkZs9+zbuoe3kFQ4V1wYjrepUFYM2dZAfNtjbbj3qsPfUfsA68Bx/ICWQMi+C8Eg==}
@@ -2695,13 +2695,13 @@ snapshots:
 
   '@actions/io@3.0.2': {}
 
-  '@actions/tool-cache@3.0.1':
+  '@actions/tool-cache@4.0.0':
     dependencies:
-      '@actions/core': 2.0.3
-      '@actions/exec': 2.0.0
-      '@actions/http-client': 3.0.2
-      '@actions/io': 2.0.0
-      semver: 6.3.1
+      '@actions/core': 3.0.0
+      '@actions/exec': 3.0.0
+      '@actions/http-client': 4.0.0
+      '@actions/io': 3.0.2
+      semver: 7.7.4
 
   '@azure/abort-controller@2.1.2':
     dependencies:
@@ -3915,7 +3915,7 @@ snapshots:
     dependencies:
       eslint: 10.0.1
 
-  eslint-config-tchoupinax@2.0.0-rc14(@eslint/markdown@7.5.1)(@typescript-eslint/utils@8.56.0(eslint@10.0.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(typescript@5.9.3):
+  eslint-config-tchoupinax@2.4.0(@eslint/markdown@7.5.1)(@typescript-eslint/utils@8.56.0(eslint@10.0.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(typescript@5.9.3):
     dependencies:
       '@stylistic/eslint-plugin': 5.9.0(eslint@10.0.1)
       '@typescript-eslint/parser': 8.56.0(eslint@10.0.1)(typescript@5.9.3)

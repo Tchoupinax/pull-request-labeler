@@ -15,6 +15,14 @@ export const HEAD_PKG_MAJOR_UPGRADE = {
   name: "test-repo",
   dependencies: { lodash: "^5.0.0" },
 };
+export const HEAD_PKG_MINOR_UPGRADE = {
+  name: "test-repo",
+  dependencies: { lodash: "^4.18.0" },
+};
+export const HEAD_PKG_PATCH_UPGRADE = {
+  name: "test-repo",
+  dependencies: { lodash: "^4.17.21" },
+};
 
 export function encodePackageJson(pkg: object): string {
   return Buffer.from(JSON.stringify(pkg)).toString("base64");

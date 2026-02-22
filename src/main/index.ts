@@ -1,11 +1,9 @@
 import * as core from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 
-import { match } from "ts-pattern";
-
 import { evaluateLabel } from "./features/evaluate-label";
 import { getPRContext } from "./features/get-pr-context";
-import { hasUpgradeMajorPackages } from "./features/has-upgraded-major-packages";
+import { getPackageUpgradeLevels } from "./features/has-upgraded-major-packages";
 import { loadConfig } from "./features/load-config";
 import { writeLabels } from "./write-labels";
 
@@ -58,6 +56,13 @@ export async function main(): Promise<void> {
 
   core.info("Configuration detected");
 
+  const semverMajorLabel =
+    labelerConfig.labelsNames?.semverMajor ?? "semver:major";
+  const semverMinorLabel =
+    labelerConfig.labelsNames?.semverMinor ?? "semver:minor";
+  const semverPatchLabel =
+    labelerConfig.labelsNames?.semverPatch ?? "semver:patch";
+
   const labelsToAdd: string[] = [];
   const labelsToRemove: string[] = [];
 
@@ -72,16 +77,41 @@ export async function main(): Promise<void> {
     }
   }
 
-  await match(labelerConfig.automaticFeatures)
-    .with({ majorPackagesUpgradedTriggersMajorLabel: true }, async () => {
-      if (await hasUpgradeMajorPackages({ octokit, owner, repo, pullNumber: issueNumber })) {
+  const autoFeatures = labelerConfig.automaticFeatures;
+  const needsUpgradeLevels =
+    autoFeatures?.majorPackagesUpgradedTriggersMajorLabel === true ||
+    autoFeatures?.minorPackagesUpgradedTriggersMinorLabel === true ||
+    autoFeatures?.patchPackagesUpgradedTriggersPatchLabel === true;
+
+  if (needsUpgradeLevels) {
+    const levels = await getPackageUpgradeLevels({
+      octokit,
+      owner,
+      repo,
+      pullNumber: issueNumber,
+    });
+
+    if (autoFeatures?.majorPackagesUpgradedTriggersMajorLabel === true) {
+      if (levels.major) {
         core.info("Major packages upgraded in this pull request");
-        labelsToAdd.push("major");
+        labelsToAdd.push(semverMajorLabel);
       } else {
-        labelsToRemove.push("major");
+        labelsToRemove.push(semverMajorLabel);
       }
-    })
-    .otherwise(() => {});
+    }
+    if (autoFeatures?.minorPackagesUpgradedTriggersMinorLabel === true) {
+      // Do not add minor label from automatic feature; only remove when not applicable.
+      if (!(levels.minor && !levels.major)) {
+        labelsToRemove.push(semverMinorLabel);
+      }
+    }
+    if (autoFeatures?.patchPackagesUpgradedTriggersPatchLabel === true) {
+      // Do not add patch label from automatic feature; only remove when not applicable.
+      if (!(levels.patch && !levels.minor && !levels.major)) {
+        labelsToRemove.push(semverPatchLabel);
+      }
+    }
+  }
 
   const currentLabels = await octokit.rest.issues.listLabelsOnIssue({
     owner,
@@ -95,7 +125,7 @@ export async function main(): Promise<void> {
 }
 
 if (process.env.VITEST !== "true") {
-  main().catch((err) => {
+  main().catch(err => {
     core.setFailed(err instanceof Error ? err.message : String(err));
   });
 }
