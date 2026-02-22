@@ -37,12 +37,13 @@ labels:
     matcher:
       files:
         any:
-          - "package.json"
+          - ".ncurc.json"
+          - "go.sum"
           - "package-lock.json"
-          - "yarn.lock"
+          - "package.json"
           - "pnpm-lock.yaml"
           - "renovate.json"
-          - "go.sum"
+          - "yarn.lock"
 
   - label: "CI/CD"
     sync: true
