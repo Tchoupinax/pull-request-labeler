@@ -19,11 +19,18 @@ export type LabelConfig = {
 
 export type AutomaticFeatures = {
   majorPackagesUpgradedTriggersMajorLabel?: boolean;
+  minorPackagesUpgradedTriggersMinorLabel?: boolean;
+  patchPackagesUpgradedTriggersPatchLabel?: boolean;
 };
 
 export type LabelerConfig = {
   version?: string;
   automaticFeatures?: AutomaticFeatures;
+  labelsNames?: {
+    semverMajor?: string;
+    semverMinor?: string;
+    semverPatch?: string;
+  };
   labels: LabelConfig[];
   checks?: Array<{
     context: string;
