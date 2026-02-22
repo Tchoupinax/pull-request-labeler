@@ -72,16 +72,6 @@ labels:
         any:
           - "**/*.tf"
 
-  - label: "dependencies"
-    sync: true
-    matcher:
-      files:
-        any:
-          - "go.mod"
-          - "go.sum"
-          - "package.json"
-          - "renovate.json"
-
 checks:
   - context: "Ready to merge"
     description: "Disable merging when 'draft' label is set."
