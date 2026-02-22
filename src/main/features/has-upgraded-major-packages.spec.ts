@@ -25,7 +25,7 @@ const configWithMajorFeature = {
 
 const configWithCustomSemverMajorLabel = {
   labels: [],
-  labelsNames: { semverMajor: "major" },
+  labelsNames: { semverMajor: "Major2" },
   automaticFeatures: { majorPackagesUpgradedTriggersMajorLabel: true },
 };
 
@@ -129,7 +129,7 @@ describe("integration: major label on PR", () => {
       owner: "test-owner",
       repo: "test-repo",
       issue_number: 42,
-      labels: ["major"],
+      labels: ["Major2"],
     });
   });
 
