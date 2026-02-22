@@ -10,9 +10,9 @@ automaticFeatures:
   majorPackagesUpgradedTriggersMajorLabel: true
 
 labelsNames:
-  semverMajor: "Major2"
-  semverMinor: "Minor2"
-  semverPatch: "Patch2"
+  semverMajor: "semver:major"
+  semverMinor: "semver:minor"
+  semverPatch: "semver:patch"
 
 labels:
   - label: "semver:major"
