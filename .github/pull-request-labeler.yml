@@ -9,6 +9,11 @@ version: v1
 automaticFeatures:
   majorPackagesUpgradedTriggersMajorLabel: true
 
+labelsNames:
+  semverMajor: "Major"
+  semverMinor: "Minor"
+  semverPatch: "Patch"
+
 labels:
   - label: "semver:major"
     sync: true
