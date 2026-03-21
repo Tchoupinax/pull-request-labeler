@@ -21,6 +21,8 @@ export type PackageUpgradeLevels = {
 /**
  * Returns which upgrade levels (major, minor, patch) exist in the PR by comparing
  * package.json at base and head (only considers package.json).
+ * Major bumps count toward `major` only when the package remains in `dependencies` on head
+ * (devDependency-only upgrades do not trigger the automatic major label).
  */
 export async function getPackageUpgradeLevels(port: Port): Promise<PackageUpgradeLevels> {
   const result: PackageUpgradeLevels = { major: false, minor: false, patch: false };
@@ -62,8 +64,12 @@ export async function getPackageUpgradeLevels(port: Port): Promise<PackageUpgrad
     const [bMaj, bMin, bPatch] = baseParts;
     const [hMaj, hMin, hPatch] = headParts;
 
+    const isProdDependencyOnHead = headPkg.dependencies?.[name] !== undefined;
+
     if (hMaj > bMaj) {
-      result.major = true;
+      if (isProdDependencyOnHead) {
+        result.major = true;
+      }
     } else if (hMaj === bMaj && hMin > bMin) {
       result.minor = true;
     } else if (hMaj === bMaj && hMin === bMin && hPatch > bPatch) {
@@ -75,8 +81,8 @@ export async function getPackageUpgradeLevels(port: Port): Promise<PackageUpgrad
 }
 
 /**
- * Returns true if the PR introduces at least one dependency whose major version increased
- * compared to the base ref (only considers package.json).
+ * Returns true if the PR introduces at least one production dependency whose major version
+ * increased compared to the base ref (only considers package.json; devDependencies excluded).
  */
 export async function hasUpgradeMajorPackages(port: Port): Promise<boolean> {
   const levels = await getPackageUpgradeLevels(port);

@@ -23,6 +23,14 @@ export const HEAD_PKG_PATCH_UPGRADE = {
   name: "test-repo",
   dependencies: { lodash: "^4.17.21" },
 };
+export const BASE_PKG_DEV_DEP = {
+  name: "test-repo",
+  devDependencies: { vitest: "^1.0.0" },
+};
+export const HEAD_PKG_MAJOR_UPGRADE_DEV_ONLY = {
+  name: "test-repo",
+  devDependencies: { vitest: "^2.0.0" },
+};
 
 export function encodePackageJson(pkg: object): string {
   return Buffer.from(JSON.stringify(pkg)).toString("base64");
@@ -43,7 +51,6 @@ export type PRContextParams = {
   commitMessages?: string[];
 };
 
-/** Set config + PR context for config-labeler tests. No major upgrade. */
 export function setConfigLabelerAndPRContext(
   config: LabelerConfig,
   pr: PRContextParams,
