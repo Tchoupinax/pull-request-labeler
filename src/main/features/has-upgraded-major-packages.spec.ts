@@ -3,9 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "../__tests__/integration-mocks";
 import {
   BASE_PKG,
+  BASE_PKG_DEV_DEP,
   encodeLabelerConfig,
   encodePackageJson,
   HEAD_PKG_MAJOR_UPGRADE,
+  HEAD_PKG_MAJOR_UPGRADE_DEV_ONLY,
   HEAD_PKG_MINOR_UPGRADE,
   HEAD_PKG_PATCH_UPGRADE,
 } from "../__tests__/integration-helpers";
@@ -89,6 +91,43 @@ describe("integration: major label on PR", () => {
       issue_number: 42,
       labels: ["semver:major"],
     });
+  });
+
+  it("does not add major label when the major upgrade is only in devDependencies", async () => {
+    mockGetContent.mockImplementation(
+      (params: { path?: string; ref?: string }) => {
+        if (params.path === ".github/pull-request-labeler.yml") {
+          return Promise.resolve({
+            data: {
+              content: encodeLabelerConfig(configWithMajorFeature),
+              encoding: "base64",
+            },
+          });
+        }
+        if (params.ref === "base-sha") {
+          return Promise.resolve({
+            data: {
+              content: encodePackageJson(BASE_PKG_DEV_DEP),
+              encoding: "base64",
+            },
+          });
+        }
+        if (params.ref === "head-sha") {
+          return Promise.resolve({
+            data: {
+              content: encodePackageJson(HEAD_PKG_MAJOR_UPGRADE_DEV_ONLY),
+              encoding: "base64",
+            },
+          });
+        }
+        return Promise.reject(new Error(`Unexpected ref: ${params.ref}`));
+      },
+    );
+
+    const { main } = await import("../index");
+    await main();
+
+    expect(mockAddLabels).not.toHaveBeenCalled();
   });
 
   it("uses custom semverMajor label from config when PR upgrades major", async () => {
